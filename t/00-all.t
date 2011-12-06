@@ -44,4 +44,12 @@ diag "Will have some output here..";
 ok(log_warn("Hi") && log_warn("Bye") && log_info("Foo") && log_errf("Meh"),
     "Default coderefs");
 
+use_ok('NonExist');
+
+{
+    package Blargh;
+    use Test::More;
+    use_ok('Fake::Log::Fu');
+}
+
 done_testing();

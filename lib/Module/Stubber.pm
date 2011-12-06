@@ -64,7 +64,7 @@ package Module::Stubber;
 use strict;
 use warnings;
 our %Status;
-our $VERSION = 0.01;
+our $VERSION = '0.01-2';
 
 my $USAGE_ERR = sprintf("Usage: use %s ".
     "Pkg::Name => [ 'import', 'options' ], extra => 'options'",
@@ -89,6 +89,7 @@ sub import {
     } else {
         warn(__PACKAGE__ . ": ".$@);
         $Status{$wanted_pkg} = 0;
+        $INC{$pkg_s} = 1;
         no strict 'refs';
         @{$wanted_pkg . '::ISA'} = 'Module::Stubber::Stub';
         my $more_syms = $options{will_use};
@@ -119,7 +120,7 @@ __END__
 
 =head1 NAME
 
-Module::Stubber - Possibly import unavailable modules and their exported symbols
+Module::Stubber - Import possibly unavailable modules and their exported symbols
 as stub functions, objects, and methods
 
 =head1 SYNOPSIS
@@ -255,6 +256,8 @@ L<maybe>
 L<if>
 
 L<Module::Load::Conditional>
+
+L<Package::Butcher> - Provides a different and more comprehensive API
 
 =head1 AUTHOR AND COPYRIGHT
 
