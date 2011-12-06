@@ -63,7 +63,7 @@ sub import {
 package Module::Stubber;
 use strict;
 use warnings;
-
+our %Status;
 our $VERSION = 0.01;
 
 my $USAGE_ERR = sprintf("Usage: use %s ".
@@ -84,9 +84,11 @@ sub import {
     @_ = ($wanted_pkg, @$import_params);
     if(eval { require $pkg_s }
        && !$wanted_pkg->isa('Module::Stubber::Stub') ) {
+        $Status{$wanted_pkg} = 1;
         goto &{$wanted_pkg->can('import')};
     } else {
-        warn(__PACKAGE__ . ": $@_");
+        warn(__PACKAGE__ . ": ".$@);
+        $Status{$wanted_pkg} = 0;
         no strict 'refs';
         @{$wanted_pkg . '::ISA'} = 'Module::Stubber::Stub';
         my $more_syms = $options{will_use};
@@ -189,11 +191,16 @@ default value or replacement subroutine for each symbol listed.
 =item silent
 
 Set this to true to disable printing initial warning messages when stubs are used
-in code. See L</MISCELLANY> for more information.
+in code. See L</Warning Messages> for more information.
 
 =back
 
 =head3 MISCELLANY
+
+
+=over
+
+=item Warning Messages
 
 The stub methods and functions created will print a warning message that looks
 something like 
@@ -218,6 +225,14 @@ Often it is desirable to have these messages print, but this may sometimes be
 impractical, especially for many methods. To silence the initial printing, simply
 place a hash entry under those method names - which must be fully qualified.
 
+
+=item Module Load Status
+
+You can check to see if a real module loaded successfully by inspecting the
+C<%Module::Stubber::Status> hash. Keys are module names, and values are true or
+false, depending on whether the module was loaded or not.
+
+=back
 
 =head2 RATIONALE
 

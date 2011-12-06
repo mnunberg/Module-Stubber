@@ -5,14 +5,22 @@ use Dir::Self;
 use lib __DIR__;
 use Test::More;
 use blib;
+use Data::Dumper;
+
+
+my $status_hash = {};
 
 use Module::Stubber NonExist => [ qw(bad_foo bad_bar bad_baz) ],
-    silent => 1;
+    silent => 1,
+    status_hash => $status_hash;
 
 ok((bad_foo() || 1), "Got symbols");
+ok(!$Module::Stubber::Status{NonExist}, "status hash for NonExist is false");
 
-use Module::Stubber goodmodule => [qw(goodmodule_true)];
+use Module::Stubber goodmodule => [qw(goodmodule_true)],
+    status_hash => $status_hash;
 
+ok($Module::Stubber::Status{goodmodule}, "Status hash for goodmodule is true");
 ok(goodmodule_true() eq 'goodmodule', "doesn't interrupt normal functionality");
 
 my $dummy_object = NonExist->new();
