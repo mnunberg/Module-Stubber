@@ -44,12 +44,16 @@ diag "Will have some output here..";
 ok(log_warn("Hi") && log_warn("Bye") && log_info("Foo") && log_errf("Meh"),
     "Default coderefs");
 
+diag "Will check to see whether normal subsequent 'use' work";
 use_ok('NonExist');
 
 {
     package Blargh;
     use Test::More;
+    diag "Checking from different calling package";
     use_ok('Fake::Log::Fu');
 }
 
+diag "Checking for import()-less package";
+use_ok('Module::Stubber', 'noimport' => []);
 done_testing();

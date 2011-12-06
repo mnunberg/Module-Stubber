@@ -64,7 +64,7 @@ package Module::Stubber;
 use strict;
 use warnings;
 our %Status;
-our $VERSION = '0.01-2';
+our $VERSION = '0.02';
 
 my $USAGE_ERR = sprintf("Usage: use %s ".
     "Pkg::Name => [ 'import', 'options' ], extra => 'options'",
@@ -85,7 +85,7 @@ sub import {
     if(eval { require $pkg_s }
        && !$wanted_pkg->isa('Module::Stubber::Stub') ) {
         $Status{$wanted_pkg} = 1;
-        goto &{$wanted_pkg->can('import')};
+        goto &{$wanted_pkg->can('import') || sub () { } };
     } else {
         warn(__PACKAGE__ . ": ".$@);
         $Status{$wanted_pkg} = 0;
