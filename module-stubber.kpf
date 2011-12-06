@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Komodo Project File - DO NOT EDIT -->
+<project id="5de123c8-8ba3-4f9e-8e7d-bbe8bb8499a4" kpf_version="4" name="module-stubber.kpf">
+<preference-set idref="5de123c8-8ba3-4f9e-8e7d-bbe8bb8499a4">
+  <boolean id="import_live">1</boolean>
+</preference-set>
+</project>
