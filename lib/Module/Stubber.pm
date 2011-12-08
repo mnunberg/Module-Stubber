@@ -64,7 +64,7 @@ package Module::Stubber;
 use strict;
 use warnings;
 our %Status;
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 my $USAGE_ERR = sprintf("Usage: use %s ".
     "Pkg::Name => [ 'import', 'options' ], extra => 'options'",

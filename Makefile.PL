@@ -12,6 +12,7 @@ WriteMakefile(
       : ()),
     PL_FILES            => {},
     PREREQ_PM => {
+        'Dir::Self' => 0,
         'Test::More' => 0,
         'Exporter' => 0,
         
